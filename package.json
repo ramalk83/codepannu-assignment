@@ -17,6 +17,7 @@
     "gulp-run": "^1.7.1",
     "mysql": "^2.18.1",
     "node-constants": "0.0.2",
+    "nodemailer": "^6.4.11",
     "request": "^2.88.2",
     "simple-node-logger": "^18.12.24",
     "webpack-node-externals": "^2.5.2"

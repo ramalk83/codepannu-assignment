@@ -1,10 +1,22 @@
-const hmc = require("node-constants")(exports);
+const Constants = require("node-constants")(exports);
 
-hmc(
+Constants(
   {
     // server related constants
     Server: {
       PORT: 3000
+    },
+
+    //recaptcha server key
+    Recaptcha:{
+      SERVER_KEY:'6LfYX8QZAAAAAFOp_VwVFAVHmXXKesAWucXnmrDy'
+    },
+
+    //Email constants
+    Email: {
+      EMAIL_SECRET: 'asdf1093KMnzxcvnkljvasdu09123nlasdasdf',
+      USER: 'codepannu.assignments@gmail.com',
+      PASS: '#Cut3andCod3',
     },
 
     // response related constants

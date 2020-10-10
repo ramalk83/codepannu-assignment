@@ -1,20 +1,20 @@
 
-const HMConstants = require('../config/HMConstants');
-const logger = require('../config/HMLogger');
+const Constants = require('../config/Constants');
+const logger = require('../config/Logger');
 const mySQL = require('mysql');
 
 var con = mySQL.createConnection({
-  host: HMConstants.Sql.MS_HOST,
-  user: HMConstants.Sql.MS_USER,
-  password: HMConstants.Sql.MS_PASS
+  host: Constants.Sql.MS_HOST,
+  user: Constants.Sql.MS_USER,
+  password: Constants.Sql.MS_PASS
 });
 
 var pool = mySQL.createPool({
-  host: HMConstants.Sql.MS_HOST,
-  user: HMConstants.Sql.MS_USER,
-  password: HMConstants.Sql.MS_PASS,
-  database: HMConstants.Sql.MS_DB_SCHEMA,
-  port: HMConstants.Sql.MS_DB_PORT,
+  host: Constants.Sql.MS_HOST,
+  user: Constants.Sql.MS_USER,
+  password: Constants.Sql.MS_PASS,
+  database: Constants.Sql.MS_DB_SCHEMA,
+  port: Constants.Sql.MS_DB_PORT,
 });
 
 exports.getSQLConnection = function (err) {
