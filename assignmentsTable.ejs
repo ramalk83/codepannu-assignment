@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>codePannu - Free Python online course for students</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="assets/css/main.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<style>
+	
+
+	
+
+	
+		.submit_button{
+			border-radius:"5px"
+		}
+
+		.accordian-body span {
+			color: #a2a2a2 !important;
+		}
+
+		.ellipsis {
+			width:auto;
+			max-width: 150px;
+			max-height: 40px;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+		}
+
+		.container {
+			display: flex;
+		
+			font-family:Arial, Helvetica, sans-serif;
+		
+		}
+       #two{
+		   background-color: rgb(255, 255, 255);
+	   }
+       .text-area{
+		   margin-top:-10px;
+	   }
+	   .table{
+		background-color: white;
+		border:solid 1px black;
+	   }
+
+	   .table .table-sm-responsive th{
+		background-color: rgb(141, 136, 136);
+	   }
+		.text-area {
+			width: 100%;
+			margin: 5px;
+		}
+
+		@media screen and (max-width: 575px) {
+			 .table-xs-responsive td {
+				width: 100% !important;
+				display: block !important;
+				box-sizing:border-box;
+				
+			}
+			.table{
+				border:none !important;
+			}
+			.ellipsis {
+			width:auto;
+			max-width: 320px;
+		}
+		}
+@media screen and (max-width: 767px) {
+.table.table-sm-responsive th, .table.table-sm-responsive td {
+    width: 100% !important;
+    display: block !important;
+    box-sizing:border-box;
+}
+}
+
+@media screen and (max-width: 992px) {
+.table.table-sm-responsive th, .table.table-sm-responsive td {
+    width: 100% !important;
+    display: block !important;
+    box-sizing:border-box;
+
+}
+}
+
+@media screen and (max-width: 1200px) {
+.table.table-sm-responsive th, .table.table-sm-responsive td {
+    width: 100% !important;
+    display: block !important;
+    box-sizing:border-box;
+	border:solid 1px gray;
+}
+}
+
+	</style>
+</head>
+
+<body>
+
+	<!-- #header -->
+	<header id="header" class="header header-hide">
+		<div class="container">
+			<div id="logo" class="pull-left">
+				<h1><a href="/" class="scrollto"><span>codePannu</span></a></h1>
+			</div>
+			<div style="float:right; padding:5px; font-size:30px">
+				<a href="/"><i class="fa fa-home"></i></a></div>
+		</div>
+	</header><!-- #header -->
+
+	<!-- Quote -->
+	<section id="banner-quote">
+		<h3>Easy and Fun coding for school students</h3>
+	</section>
+
+	<section id="two" class="wrapper style2 section">
+		<div class="container ">
+			<div class="row">
+				<div class="table-responsive-md" >
+					<table class="table table-bordered table-sm-responsive"  id='assignmentTable'>
+						<thead   style="background-color:rgb(219, 217, 217);border:solid 1px black">
+							<tr>
+								<th>Details</th>
+								<th>Answer</th>
+								<th>Rate</th>
+								<th>Comments</th>
+								<th>Corrected</th>
+							</tr>
+						</thead>
+						<tbody style="border:solid 1px black">
+							<% for(var i=0; i < data.length ; i++) {%>
+							<tr colspan="6">
+								<td><%- data[i].details %></td>
+								<td class="ellipsis">
+									<a href="#" onClick='copyCode()'><i class="fa fa-copy" style="font-size:24px"></i></a>
+									<%- data[i].answer %>
+								</td>
+								<td>
+									<select class="rating">
+										<option value="">- Select grade -</option>
+										<option value="1">Very good</option>
+										<option value="2">Amazing</option>
+										<option value="3">Excellent</option>
+										<option value="4">Simply wow</option>
+										<option value="5">Blew my mind</option>
+									</select>
+								</td>
+								<td>
+									<textarea class="text-area"></textarea>
+								</td>
+								<td>
+									<input type="button" value="submit" class='submit_button'
+										onclick="contentReviewed('<%= data[i].id %>',this)" />
+								</td>
+
+							</tr>
+							<% } %>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</section>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+	<script>
+		function contentReviewed(id, elm) {
+
+				console.log('function invoked')
+				var comment = $(elm).closest("tr").find(".text-area").val();
+				var rate = $(elm).closest("tr").find(".rating option:selected").val();
+				console.log(id)
+				console.log(comment)
+				console.log(rate)
+
+				fetch('/update-assignment', {
+					method: 'POST',
+					headers: {
+						'Accept': 'application/json, text/plain, */*',
+						'Content-type': 'application/JSON'
+					},
+					body: JSON.stringify({ id: id, comment: comment, rate: rate })
+				})
+					.then((res) => res.json())
+					.then((data1) => {
+						window.location.replace(data1.url);
+					})
+			
+
+		}
+
+		function copyCode() {
+			$('i.fa').off('click');
+			$(document).on('click', 'i.fa', function () {
+				console.log('function invoked')
+				var copyTextarea = $(this).closest("td").text();
+				console.log(copyTextarea)
+
+				// copy content using dummy entity
+				var dummy = document.createElement("textarea");
+				document.body.appendChild(dummy);
+				dummy.value = copyTextarea;
+				dummy.select();
+				document.execCommand("copy");
+				document.body.removeChild(dummy);
+
+				/* Alert the copied text */
+				alert("content copied");
+
+			})
+		}
+
+	</script>
+</body>
+
+</html>
